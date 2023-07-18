@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "client\src\UI.csproj"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{1A4CD339-2F8D-4BB3-8450-5A374784D073}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleADO", "ConsoleADO\ConsoleADO.csproj", "{0CE03123-BB7F-4FD1-B602-235E97396467}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleADO", "ConsoleADO\ConsoleADO.csproj", "{0CE03123-BB7F-4FD1-B602-235E97396467}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppEF", "ConsoleAppEF\ConsoleAppEF.csproj", "{37788010-990E-4333-9A4C-EFDCAC226C16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0CE03123-BB7F-4FD1-B602-235E97396467}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CE03123-BB7F-4FD1-B602-235E97396467}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CE03123-BB7F-4FD1-B602-235E97396467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37788010-990E-4333-9A4C-EFDCAC226C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37788010-990E-4333-9A4C-EFDCAC226C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37788010-990E-4333-9A4C-EFDCAC226C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37788010-990E-4333-9A4C-EFDCAC226C16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
