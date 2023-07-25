@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 
@@ -8,6 +9,7 @@ namespace ConsoleAppEF.Models
     internal class Order
     {
         [Key]
+        [DefaultValue(true)]
         public Guid Id { get; set; }
 
         [Required]

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConsoleAppEF.Models
 {
@@ -7,6 +8,7 @@ namespace ConsoleAppEF.Models
     internal class Product
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -16,5 +18,7 @@ namespace ConsoleAppEF.Models
         public PRODUCT_CATEGORY Category { get; set; }
 
         public double Price { get; set; }
+
+        public Order? Order { get; set; }
     }
 }

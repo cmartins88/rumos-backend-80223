@@ -16,17 +16,18 @@ namespace ConsoleAppEF.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            /*
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            IConfiguration config = builder.Build();
+            IConfiguration config = builder.Build();*/
 
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(config.GetConnectionString("SqlServer"));
+                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=Rumos; Integrated Security=SSPI; Persist Security Info=False;");
         }
 
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Order> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
