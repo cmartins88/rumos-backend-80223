@@ -3,52 +3,60 @@ using ConsoleAppEF.Data;
 using ConsoleAppEF.Models;
 using Microsoft.EntityFrameworkCore;
 
-Console.WriteLine("Hello, World!");
-
-using(ApplicationDbContext db = new ApplicationDbContext())
+internal class Program
 {
-    // insert
-    db.Products.Add(new()
+    private static void Main(string[] args)
     {
-        Name = "Test",
-        Description = "Test",
-        Category = ConsoleAppEF.Models.PRODUCT_CATEGORY.Sumos,
-        Price = 0.2D
-    });
-    db.SaveChanges();
+        Console.WriteLine("Hello, World!");
 
-    // select
-    var last_product = db.Products.OrderBy(p => p.Id).Last();
-    var product = db.Products.Where(p => p.Id == 3).Single();
+        using (ApplicationDbContext db = new ApplicationDbContext())
+        {
+            // CRUD operations - Create / Read / Update / Delete
 
-    var last_product_s = (from p in db.Products
-                       orderby p.Id
-                       select p).Last();
+            // insert
+            db.Products.Add(new()
+            {
+                Name = "Test",
+                Description = "Test",
+                Category = PRODUCT_CATEGORY.Sumos,
+                Price = 0.2D
+            });
+            db.SaveChanges();
 
-    var product_s = (from p in db.Products
-                     where p.Id == 3
-                     select p).Single();
+            // select
+            var last_product = db.Products.OrderBy(p => p.Id).Last();
+            var product = db.Products.Where(p => p.Id == 3).Single();
 
-    // remove
-    //db.Products.Remove(product);
-    //db.SaveChanges();
+            var last_product_s = (from p in db.Products
+                                  orderby p.Id
+                                  select p).Last();
 
-    // update
-    last_product.Name = "New product name";
-    db.SaveChanges();
+            var product_s = (from p in db.Products
+                             where p.Id == 3
+                             select p).Single();
 
-    db.Add<Order>(new() 
-    {
-        OrderDate = DateTime.Now,
-        Description = "compra teste",
-        Products = new[] { product, last_product }
-    });
-    db.SaveChanges();
+            // update
+            last_product.Name = "New product name";
+            db.SaveChanges();
+
+            // remove
+            //db.Products.Remove(product);
+            //db.SaveChanges();
+
+            db.Add<Order>(new()
+            {
+                OrderDate = DateTime.Now,
+                Description = "compra teste",
+                Products = new[] { product, last_product }
+            });
+            db.SaveChanges();
 
 
-    var product_8 = db.Products.Where(p => p.Id == 8).Include("Order").Single();
-    Console.WriteLine($"Produto comprado na data: {product_8.Order.OrderDate}");
+            var product_8 = db.Products.Where(p => p.Id == 8).Include("Order").Single();
+            Console.WriteLine($"Produto comprado na data: {product_8.Order.OrderDate}");
 
 
 
+        }
+    }
 }

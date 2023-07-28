@@ -22,9 +22,14 @@ namespace ConsoleAppEF.Data
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             IConfiguration config = builder.Build();*/
-
             if (!optionsBuilder.IsConfigured)
                 optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=Rumos; Integrated Security=SSPI; Persist Security Info=False;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // FLUENT API
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Order> Orders { get; set; }
