@@ -1,5 +1,6 @@
 using Api.Data;
 using Api.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +13,17 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddIdentityServer()
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
+builder.Services.AddAuthentication()
+    .AddIdentityServerJwt();
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -26,6 +34,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();  
+app.UseAuthentication();
+app.UseIdentityServer();
+app.UseAuthorization();
 
 app.UseHttpsRedirection();
 

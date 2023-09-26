@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -19,12 +20,14 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> ReadAll()
         {
             return Ok(_dbContext.Products.Where(p => !p.IsDeleted));
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Read(Guid id)
         {
             var product = _dbContext.Products.Find(id);
