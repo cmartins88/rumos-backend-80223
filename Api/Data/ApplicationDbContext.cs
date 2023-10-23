@@ -17,5 +17,7 @@ namespace Api.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<SnackMachine> SnackMachines { get; set; }
+
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

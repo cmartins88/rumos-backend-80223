@@ -35,7 +35,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();  
+app.UseCors(corsPolicyBuilder =>
+   corsPolicyBuilder
+   .AllowAnyOrigin()
+   .AllowAnyMethod()
+   .AllowAnyHeader()); 
+
 app.UseAuthentication();
 app.UseIdentityServer();
 app.UseAuthorization();
