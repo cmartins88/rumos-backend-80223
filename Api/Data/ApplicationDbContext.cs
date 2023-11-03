@@ -9,6 +9,7 @@ namespace Api.Data
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
+        public ApplicationDbContext() : base(new DbContextOptions<ApplicationDbContext>(), null) { }
         public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
             : base(options, operationalStoreOptions)
         {
@@ -17,7 +18,6 @@ namespace Api.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<SnackMachine> SnackMachines { get; set; }
-
-        public DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<Contact> Contacts { get; set; } = default!;
     }
 }

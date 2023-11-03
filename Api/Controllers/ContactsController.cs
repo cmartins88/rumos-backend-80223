@@ -60,6 +60,11 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
+            if (!Utils.IsValidPhoneNumber(contact.Telefone))
+            {
+                return BadRequest();
+            }
+
             _context.Entry(contact).State = EntityState.Modified;
 
             try
