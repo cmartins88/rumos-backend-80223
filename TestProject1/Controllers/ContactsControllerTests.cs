@@ -1,6 +1,7 @@
 ﻿using Api.Controllers;
 using Api.Data;
 using Api.Models;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Moq.EntityFrameworkCore;
 using System;
