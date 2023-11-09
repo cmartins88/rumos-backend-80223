@@ -32,6 +32,8 @@ namespace UITestProject
 
             // verificar se o texto da opção selecionada é Valor 3
             Assert.Equal("Valor 3", dropbox.SelectedOption.Text);
+
+            System.Threading.Thread.Sleep(4000);
         }
     }
 }
