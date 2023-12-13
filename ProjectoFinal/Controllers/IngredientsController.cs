@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -15,58 +14,57 @@ namespace ProjectoFinal.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class RecipesController : ControllerBase
+    public class IngredientsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public RecipesController(ApplicationDbContext context)
+        public IngredientsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Recipes
+        // GET: api/Ingredients
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipe()
+        public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredients()
         {
-          if (_context.Recipes == null)
+          if (_context.Ingredients == null)
           {
               return NotFound();
           }
-
-          return await _context.Recipes.ToListAsync();
+            return await _context.Ingredients.ToListAsync();
         }
 
-        // GET: api/Recipes/5
+        // GET: api/Ingredients/5
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Recipe>> GetRecipe(Guid id)
+        public async Task<ActionResult<Ingredient>> GetIngredient(Guid id)
         {
-          if (_context.Recipes == null)
+          if (_context.Ingredients == null)
           {
               return NotFound();
           }
-            var recipe = await _context.Recipes.FindAsync(id);
+            var ingredient = await _context.Ingredients.FindAsync(id);
 
-            if (recipe == null)
+            if (ingredient == null)
             {
                 return NotFound();
             }
 
-            return recipe;
+            return ingredient;
         }
 
-        // PUT: api/Recipes/5
+        // PUT: api/Ingredients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRecipe(Guid id, Recipe recipe)
+        public async Task<IActionResult> PutIngredient(Guid id, Ingredient ingredient)
         {
-            if (id != recipe.Id)
+            if (id != ingredient.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(recipe).State = EntityState.Modified;
+            _context.Entry(ingredient).State = EntityState.Modified;
 
             try
             {
@@ -74,7 +72,7 @@ namespace ProjectoFinal.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RecipeExists(id))
+                if (!IngredientExists(id))
                 {
                     return NotFound();
                 }
@@ -87,44 +85,44 @@ namespace ProjectoFinal.Controllers
             return NoContent();
         }
 
-        // POST: api/Recipes
+        // POST: api/Ingredients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+        public async Task<ActionResult<Ingredient>> PostIngredient(Ingredient ingredient)
         {
-          if (_context.Recipes == null)
+          if (_context.Ingredients == null)
           {
-              return Problem("Entity set 'ApplicationDbContext.Recipe'  is null.");
+              return Problem("Entity set 'ApplicationDbContext.Ingredients'  is null.");
           }
-            _context.Recipes.Add(recipe);
+            _context.Ingredients.Add(ingredient);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
+            return CreatedAtAction("GetIngredient", new { id = ingredient.Id }, ingredient);
         }
 
-        // DELETE: api/Recipes/5
+        // DELETE: api/Ingredients/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRecipe(Guid id)
+        public async Task<IActionResult> DeleteIngredient(Guid id)
         {
-            if (_context.Recipes == null)
+            if (_context.Ingredients == null)
             {
                 return NotFound();
             }
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null)
+            var ingredient = await _context.Ingredients.FindAsync(id);
+            if (ingredient == null)
             {
                 return NotFound();
             }
 
-            _context.Recipes.Remove(recipe);
+            _context.Ingredients.Remove(ingredient);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RecipeExists(Guid id)
+        private bool IngredientExists(Guid id)
         {
-            return (_context.Recipes?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Ingredients?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

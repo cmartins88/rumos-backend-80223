@@ -322,6 +322,9 @@ namespace ProjectoFinal.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsLocked")
                         .HasColumnType("bit");
 
@@ -358,6 +361,9 @@ namespace ProjectoFinal.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -373,25 +379,27 @@ namespace ProjectoFinal.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2bf76f30-7eb9-457b-b5b6-c9c51d061dda",
+                            Id = "f7708237-e552-4567-87d0-6a2922efdece",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "609629bb-4d1b-4d10-aa58-551a9b78fa90",
+                            ConcurrencyStamp = "a0b4f01c-48cf-41c0-8b39-c9901004cd57",
                             Email = "admin@gmail.com",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             IsAdmin = true,
+                            IsDeleted = false,
                             IsLocked = false,
                             LockoutEnabled = false,
-                            NormalizedEmail = "admin@gmail.com",
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPc+/KKorgE4bPr2jxBiW9qdcQfD2Azcj83CVbP5yUj7Pg+9sceh+NUQwZv+GuFEqQ==",
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEInZ+N5irwtPhxvkPVUivqm/2duefEw1ON6gKTvujmFhf5chjhtkDZlujtHeka9K9Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "admin"
+                            UserName = "admin@gmail.com",
+                            created_date = new DateTime(2023, 12, 13, 23, 13, 51, 244, DateTimeKind.Local).AddTicks(1893)
                         });
                 });
 
-            modelBuilder.Entity("ProjectoFinal.Models.Recipe", b =>
+            modelBuilder.Entity("ProjectoFinal.Models.Comments", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -401,11 +409,101 @@ namespace ProjectoFinal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("RecipeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("ProjectoFinal.Models.Favorite", b =>
+                {
+                    b.Property<Guid>("RecipeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RecipeID", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Favorites");
+                });
+
+            modelBuilder.Entity("ProjectoFinal.Models.Ingredient", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Quantity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("RecipeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("ProjectoFinal.Models.Recipe", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Evaluation_count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Evaluation_sum")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -466,18 +564,75 @@ namespace ProjectoFinal.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProjectoFinal.Models.Comments", b =>
+                {
+                    b.HasOne("ProjectoFinal.Models.Recipe", "Recipe")
+                        .WithMany("Comments")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ProjectoFinal.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProjectoFinal.Models.Favorite", b =>
+                {
+                    b.HasOne("ProjectoFinal.Models.Recipe", "Recipe")
+                        .WithMany("Favorite")
+                        .HasForeignKey("RecipeID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ProjectoFinal.Models.ApplicationUser", "User")
+                        .WithMany("Favorites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProjectoFinal.Models.Ingredient", b =>
+                {
+                    b.HasOne("ProjectoFinal.Models.Recipe", null)
+                        .WithMany("Ingredients")
+                        .HasForeignKey("RecipeId");
+                });
+
             modelBuilder.Entity("ProjectoFinal.Models.Recipe", b =>
                 {
                     b.HasOne("ProjectoFinal.Models.ApplicationUser", "User")
                         .WithMany("Recipes")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProjectoFinal.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Favorites");
+
                     b.Navigation("Recipes");
+                });
+
+            modelBuilder.Entity("ProjectoFinal.Models.Recipe", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Favorite");
+
+                    b.Navigation("Ingredients");
                 });
 #pragma warning restore 612, 618
         }

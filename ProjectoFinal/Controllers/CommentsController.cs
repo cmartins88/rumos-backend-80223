@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -15,58 +14,57 @@ namespace ProjectoFinal.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class RecipesController : ControllerBase
+    public class CommentsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public RecipesController(ApplicationDbContext context)
+        public CommentsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Recipes
+        // GET: api/Comments
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipe()
+        public async Task<ActionResult<IEnumerable<Comments>>> GetComments()
         {
-          if (_context.Recipes == null)
+          if (_context.Comments == null)
           {
               return NotFound();
           }
-
-          return await _context.Recipes.ToListAsync();
+            return await _context.Comments.ToListAsync();
         }
 
-        // GET: api/Recipes/5
+        // GET: api/Comments/5
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Recipe>> GetRecipe(Guid id)
+        public async Task<ActionResult<Comments>> GetComments(Guid id)
         {
-          if (_context.Recipes == null)
+          if (_context.Comments == null)
           {
               return NotFound();
           }
-            var recipe = await _context.Recipes.FindAsync(id);
+            var comments = await _context.Comments.FindAsync(id);
 
-            if (recipe == null)
+            if (comments == null)
             {
                 return NotFound();
             }
 
-            return recipe;
+            return comments;
         }
 
-        // PUT: api/Recipes/5
+        // PUT: api/Comments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRecipe(Guid id, Recipe recipe)
+        public async Task<IActionResult> PutComments(Guid id, Comments comments)
         {
-            if (id != recipe.Id)
+            if (id != comments.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(recipe).State = EntityState.Modified;
+            _context.Entry(comments).State = EntityState.Modified;
 
             try
             {
@@ -74,7 +72,7 @@ namespace ProjectoFinal.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RecipeExists(id))
+                if (!CommentsExists(id))
                 {
                     return NotFound();
                 }
@@ -87,44 +85,44 @@ namespace ProjectoFinal.Controllers
             return NoContent();
         }
 
-        // POST: api/Recipes
+        // POST: api/Comments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+        public async Task<ActionResult<Comments>> PostComments(Comments comments)
         {
-          if (_context.Recipes == null)
+          if (_context.Comments == null)
           {
-              return Problem("Entity set 'ApplicationDbContext.Recipe'  is null.");
+              return Problem("Entity set 'ApplicationDbContext.Comments'  is null.");
           }
-            _context.Recipes.Add(recipe);
+            _context.Comments.Add(comments);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
+            return CreatedAtAction("GetComments", new { id = comments.Id }, comments);
         }
 
-        // DELETE: api/Recipes/5
+        // DELETE: api/Comments/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRecipe(Guid id)
+        public async Task<IActionResult> DeleteComments(Guid id)
         {
-            if (_context.Recipes == null)
+            if (_context.Comments == null)
             {
                 return NotFound();
             }
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null)
+            var comments = await _context.Comments.FindAsync(id);
+            if (comments == null)
             {
                 return NotFound();
             }
 
-            _context.Recipes.Remove(recipe);
+            _context.Comments.Remove(comments);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RecipeExists(Guid id)
+        private bool CommentsExists(Guid id)
         {
-            return (_context.Recipes?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Comments?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
