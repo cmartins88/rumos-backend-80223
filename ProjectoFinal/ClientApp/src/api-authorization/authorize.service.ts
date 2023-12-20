@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { User, UserManager } from 'oidc-client';
-import { BehaviorSubject, concat, from, Observable } from 'rxjs';
+import { BehaviorSubject, concat, from, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
+import { HttpClient } from '@angular/common/http';
 
 export type IAuthenticationResult =
   SuccessAuthenticationResult |
@@ -31,6 +32,7 @@ export enum AuthenticationResultStatus {
 
 export interface IUser {
   name?: string;
+  isAdmin?: boolean;
 }
 
 @Injectable({
@@ -43,9 +45,16 @@ export class AuthorizeService {
   private popUpDisabled = true;
   private userManager?: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+
+  }
 
   public isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));
+  }
+
+  public isAdmin(): Observable<boolean> {
+    return this.getUser().pipe(map(u => !!u && !!u.isAdmin));
   }
 
   public getUser(): Observable<IUser | null> {
@@ -194,6 +203,12 @@ export class AuthorizeService {
     return from(this.ensureUserManagerInitialized())
       .pipe(
         mergeMap(() => this.userManager!.getUser()),
-        map(u => u && u.profile));
+        mergeMap(p => {
+          if (p)
+            return this.http.get<any>(`${this.baseUrl}api/user/${p.profile.sub}`)
+              .pipe(map(s => s && { ...p.profile, ...s }));
+          else
+           return of(null);
+        }));
   }
 }

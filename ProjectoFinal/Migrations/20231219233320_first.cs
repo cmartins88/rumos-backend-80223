@@ -251,7 +251,7 @@ namespace ProjectoFinal.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RecipeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -261,7 +261,8 @@ namespace ProjectoFinal.Migrations
                         name: "FK_Comments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comments_Recipes_RecipeId",
                         column: x => x.RecipeId,
@@ -273,20 +274,21 @@ namespace ProjectoFinal.Migrations
                 name: "Favorites",
                 columns: table => new
                 {
-                    RecipeID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RecipeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favorites", x => new { x.RecipeID, x.UserId });
+                    table.PrimaryKey("PK_Favorites", x => new { x.RecipeId, x.UserId });
                     table.ForeignKey(
                         name: "FK_Favorites_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Favorites_Recipes_RecipeID",
-                        column: x => x.RecipeID,
+                        name: "FK_Favorites_Recipes_RecipeId",
+                        column: x => x.RecipeId,
                         principalTable: "Recipes",
                         principalColumn: "Id");
                 });
@@ -298,7 +300,7 @@ namespace ProjectoFinal.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RecipeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    RecipeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -307,13 +309,14 @@ namespace ProjectoFinal.Migrations
                         name: "FK_Ingredients_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "IsAdmin", "IsDeleted", "IsLocked", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "created_date" },
-                values: new object[] { "f7708237-e552-4567-87d0-6a2922efdece", 0, "a0b4f01c-48cf-41c0-8b39-c9901004cd57", "admin@gmail.com", true, true, false, false, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEInZ+N5irwtPhxvkPVUivqm/2duefEw1ON6gKTvujmFhf5chjhtkDZlujtHeka9K9Q==", null, false, "", false, "admin@gmail.com", new DateTime(2023, 12, 13, 23, 13, 51, 244, DateTimeKind.Local).AddTicks(1893) });
+                values: new object[] { "85b8ae12-5598-4c66-aa18-8cb119ceb8f6", 0, "ee8e9c3c-a1b9-456f-bbd9-d82deb3fa4e9", "admin@gmail.com", true, true, false, false, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEKrL7UVRXn/hQmuEBX+zB7Y3Mv8itoNXRaISZjXVIW6w+aWAb1fPtLoL92FdRk0g5Q==", null, false, "", false, "admin@gmail.com", new DateTime(2023, 12, 19, 23, 33, 20, 667, DateTimeKind.Local).AddTicks(6786) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

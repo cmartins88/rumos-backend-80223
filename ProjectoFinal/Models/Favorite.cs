@@ -3,17 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectoFinal.Models
 {
-    [PrimaryKey(nameof(RecipeID), nameof(UserId))]
+    [PrimaryKey(nameof(RecipeId), nameof(UserId))]
     public class Favorite
     {
-        public Guid RecipeID { get; set; }
+        public Guid RecipeId { get; set; }
 
         [DeleteBehavior(DeleteBehavior.NoAction)]
         public virtual Recipe Recipe { get; set; }
 
         public string UserId { get; set; }
 
-        [DeleteBehavior(DeleteBehavior.NoAction)]
         public virtual ApplicationUser User { get; set; }
     }
 }

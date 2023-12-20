@@ -1,0 +1,26 @@
+<p>receitas works!</p>
+
+<form (ngSubmit)="submitForm()">
+  <input type="hidden" [(ngModel)]="recipeData.id" name="id" />
+  <input type="hidden" [(ngModel)]="recipeData.userid" name="userid" />
+
+  <label>Name</label>
+  <input type="text" [(ngModel)]="recipeData.name" name="name" />
+
+  <label>Description</label>
+  <input type="text" [(ngModel)]="recipeData.description" name="description" />
+
+  <label>Title</label>
+  <input type="text" [(ngModel)]="recipeData.title" name="title" />
+
+  <label>Category</label>
+  <input type="number" [(ngModel)]="recipeData.category" name="category" />
+
+  <label>Difficulty</label>
+  <input type="number" [(ngModel)]="recipeData.difficulty" name="difficulty" />
+
+  <label>Duration</label>
+  <input type="number" [(ngModel)]="recipeData.duration" name="duration" />
+
+  <input type="submit" name="Save" />
+</form>

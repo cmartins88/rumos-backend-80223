@@ -12,7 +12,7 @@ using ProjectoFinal.Data;
 namespace ProjectoFinal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231213231351_first")]
+    [Migration("20231219233320_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -382,9 +382,9 @@ namespace ProjectoFinal.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f7708237-e552-4567-87d0-6a2922efdece",
+                            Id = "85b8ae12-5598-4c66-aa18-8cb119ceb8f6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a0b4f01c-48cf-41c0-8b39-c9901004cd57",
+                            ConcurrencyStamp = "ee8e9c3c-a1b9-456f-bbd9-d82deb3fa4e9",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             IsAdmin = true,
@@ -393,16 +393,16 @@ namespace ProjectoFinal.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEInZ+N5irwtPhxvkPVUivqm/2duefEw1ON6gKTvujmFhf5chjhtkDZlujtHeka9K9Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKrL7UVRXn/hQmuEBX+zB7Y3Mv8itoNXRaISZjXVIW6w+aWAb1fPtLoL92FdRk0g5Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com",
-                            created_date = new DateTime(2023, 12, 13, 23, 13, 51, 244, DateTimeKind.Local).AddTicks(1893)
+                            created_date = new DateTime(2023, 12, 19, 23, 33, 20, 667, DateTimeKind.Local).AddTicks(6786)
                         });
                 });
 
-            modelBuilder.Entity("ProjectoFinal.Models.Comments", b =>
+            modelBuilder.Entity("ProjectoFinal.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -416,6 +416,7 @@ namespace ProjectoFinal.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -429,13 +430,13 @@ namespace ProjectoFinal.Migrations
 
             modelBuilder.Entity("ProjectoFinal.Models.Favorite", b =>
                 {
-                    b.Property<Guid>("RecipeID")
+                    b.Property<Guid>("RecipeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("RecipeID", "UserId");
+                    b.HasKey("RecipeId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -456,7 +457,7 @@ namespace ProjectoFinal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RecipeId")
+                    b.Property<Guid>("RecipeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -567,7 +568,7 @@ namespace ProjectoFinal.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectoFinal.Models.Comments", b =>
+            modelBuilder.Entity("ProjectoFinal.Models.Comment", b =>
                 {
                     b.HasOne("ProjectoFinal.Models.Recipe", "Recipe")
                         .WithMany("Comments")
@@ -576,9 +577,10 @@ namespace ProjectoFinal.Migrations
                         .IsRequired();
 
                     b.HasOne("ProjectoFinal.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Recipe");
 
@@ -589,14 +591,14 @@ namespace ProjectoFinal.Migrations
                 {
                     b.HasOne("ProjectoFinal.Models.Recipe", "Recipe")
                         .WithMany("Favorite")
-                        .HasForeignKey("RecipeID")
+                        .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProjectoFinal.Models.ApplicationUser", "User")
                         .WithMany("Favorites")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Recipe");
@@ -606,9 +608,13 @@ namespace ProjectoFinal.Migrations
 
             modelBuilder.Entity("ProjectoFinal.Models.Ingredient", b =>
                 {
-                    b.HasOne("ProjectoFinal.Models.Recipe", null)
+                    b.HasOne("ProjectoFinal.Models.Recipe", "Recipe")
                         .WithMany("Ingredients")
-                        .HasForeignKey("RecipeId");
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("ProjectoFinal.Models.Recipe", b =>
@@ -624,6 +630,8 @@ namespace ProjectoFinal.Migrations
 
             modelBuilder.Entity("ProjectoFinal.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Favorites");
 
                     b.Navigation("Recipes");

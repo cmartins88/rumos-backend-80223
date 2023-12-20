@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\models\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

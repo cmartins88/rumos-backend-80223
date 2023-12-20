@@ -18,8 +18,10 @@ namespace ProjectoFinal.Models
         [Required]
         public DateTime created_date { get; set; } = DateTime.Now;
 
-        public virtual ICollection<Recipe> Recipes { get; set; }
+        public virtual ICollection<Recipe>? Recipes { get; } = new List<Recipe>();
 
-        public virtual ICollection<Favorite> Favorites { get; set; }
+        public virtual ICollection<Favorite>? Favorites { get; } = new List<Favorite>();
+
+        public virtual ICollection<Comment>? Comments { get; } = new List<Comment>();
     }
 }

@@ -26,7 +26,7 @@ namespace ProjectoFinal.Controllers
         // GET: api/Comments
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<Comments>>> GetComments()
+        public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
         {
           if (_context.Comments == null)
           {
@@ -38,7 +38,7 @@ namespace ProjectoFinal.Controllers
         // GET: api/Comments/5
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<Comments>> GetComments(Guid id)
+        public async Task<ActionResult<Comment>> GetComments(Guid id)
         {
           if (_context.Comments == null)
           {
@@ -57,7 +57,7 @@ namespace ProjectoFinal.Controllers
         // PUT: api/Comments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutComments(Guid id, Comments comments)
+        public async Task<IActionResult> PutComments(Guid id, Comment comments)
         {
             if (id != comments.Id)
             {
@@ -88,7 +88,7 @@ namespace ProjectoFinal.Controllers
         // POST: api/Comments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Comments>> PostComments(Comments comments)
+        public async Task<ActionResult<Comment>> PostComments(Comment comments)
         {
           if (_context.Comments == null)
           {

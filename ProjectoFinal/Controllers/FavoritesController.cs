@@ -57,7 +57,7 @@ namespace ProjectoFinal.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFavorite(Guid id, Favorite favorite)
         {
-            if (id != favorite.RecipeID)
+            if (id != favorite.RecipeId)
             {
                 return BadRequest();
             }
@@ -99,7 +99,7 @@ namespace ProjectoFinal.Controllers
             }
             catch (DbUpdateException)
             {
-                if (FavoriteExists(favorite.RecipeID))
+                if (FavoriteExists(favorite.RecipeId))
                 {
                     return Conflict();
                 }
@@ -109,7 +109,7 @@ namespace ProjectoFinal.Controllers
                 }
             }
 
-            return CreatedAtAction("GetFavorite", new { id = favorite.RecipeID }, favorite);
+            return CreatedAtAction("GetFavorite", new { id = favorite.RecipeId }, favorite);
         }
 
         // DELETE: api/Favorites/5
@@ -134,7 +134,7 @@ namespace ProjectoFinal.Controllers
 
         private bool FavoriteExists(Guid id)
         {
-            return (_context.Favorites?.Any(e => e.RecipeID == id)).GetValueOrDefault();
+            return (_context.Favorites?.Any(e => e.RecipeId == id)).GetValueOrDefault();
         }
     }
 }

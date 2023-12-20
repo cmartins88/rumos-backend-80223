@@ -51,13 +51,14 @@ namespace ProjectoFinal.Models
 
         //public string Ingredients { get; set; }
 
-        public virtual ICollection<Ingredient> Ingredients { get; set; }
+        public virtual ICollection<Ingredient> Ingredients { get; } = new List<Ingredient>();
 
         [Required]
-        public virtual ApplicationUser User { get; set; }
+        public string UserId { get; set; }
+        public virtual ApplicationUser? User { get; set; }
 
-        public virtual ICollection<Favorite> Favorite { get; set; }
+        public virtual ICollection<Favorite>? Favorite { get; }
 
-        public virtual ICollection<Comments> Comments { get; set; }
+        public virtual ICollection<Comment>? Comments { get; }
     }
 }

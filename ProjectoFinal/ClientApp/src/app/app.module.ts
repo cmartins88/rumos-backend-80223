@@ -11,7 +11,10 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
+import { AdminGuard } from 'src/api-authorization/admin.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+import { ReceitasComponent } from './receitas/receitas.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,9 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    ReceitasComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,6 +35,8 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+      { path: 'recipes', component: ReceitasComponent, canActivate: [AuthorizeGuard] },
+      { path: 'users', component: UsersComponent, canActivate: [AdminGuard] },
     ])
   ],
   providers: [

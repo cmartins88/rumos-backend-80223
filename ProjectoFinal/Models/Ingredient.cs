@@ -13,5 +13,9 @@ namespace ProjectoFinal.Models
 
         [Required]
         public string Quantity { get; set; }
+
+        [Required]
+        public Guid RecipeId { get; set; }
+        public virtual Recipe? Recipe { get; set; }
     }
 }

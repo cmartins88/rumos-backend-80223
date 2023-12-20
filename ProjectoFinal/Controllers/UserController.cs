@@ -20,13 +20,6 @@ namespace ProjectoFinal.Controllers
             _context = context;
         }
 
-        [HttpGet("token")]
-        [AllowAnonymous]
-        public async Task<ActionResult<string>> GetLoginToken()
-        {
-            return await HttpContext.GetTokenAsync("access_token");
-        }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetUser()
         {
